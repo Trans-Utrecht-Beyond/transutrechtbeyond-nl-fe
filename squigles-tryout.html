@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<div id="container"></div>
+<script type="module">
+
+import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+// Declare the chart dimensions and margins.
+const width = 600;
+const height = 400;
+const marginTop = 20;
+const marginRight = 20;
+const marginBottom = 30;
+const marginLeft = 40;
+
+const lines = [
+    [[0, 50], [150, 100], [300, 40], [500, 140]]
+]
+
+
+// Create the SVG container.
+const svg = d3.create("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+var line = d3.line()
+    .x((d) => d[0])
+    .y((d) => d[1])
+    .curve(d3.curveBasis);
+
+var xScale = d3.scaleLinear().range([0, width]);
+var yScale = d3.scaleLinear().range([0, height]);
+
+lines.forEach(points => {
+    svg.append("path")
+        .data([points])          // bind the dataset to the path element
+        .attr("d", line)       // pass the line generator
+        .attr("fill", "none")
+        .attr("stroke", "red");
+});
+
+// Append the SVG element.
+container.append(svg.node());
+
+</script>

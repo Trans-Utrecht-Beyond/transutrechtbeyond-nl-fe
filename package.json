@@ -12,12 +12,19 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@prelude-io/core": "^1.6.4",
+    "@prelude-io/fetch": "^1.6.4",
+    "d3": "^7.9.0",
     "normalize.css": "^8.0.1",
+    "polished": "^4.3.1",
+    "prelude-ts": "^1.0.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3"
   },
   "devDependencies": {
+    "@emotion/babel-plugin": "^11.11.0",
+    "@types/d3": "^7.4.3",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
@@ -30,6 +37,7 @@
     "eslint-plugin-react-refresh": "^0.4.6",
     "prettier": "3.2.5",
     "typescript": "^5.2.2",
-    "vite": "^5.2.0"
+    "vite": "^5.2.0",
+    "vite-plugin-babel": "^1.2.0"
   }
 }
