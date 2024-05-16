@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "develop": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
@@ -15,16 +15,24 @@
     "@prelude-io/core": "^1.6.4",
     "@prelude-io/fetch": "^1.6.4",
     "d3": "^7.9.0",
+    "date-fns": "^3.6.0",
+    "i18next": "^23.10.1",
+    "i18next-browser-languagedetector": "^7.2.1",
     "normalize.css": "^8.0.1",
     "polished": "^4.3.1",
     "prelude-ts": "^1.0.6",
+    "qs": "^6.12.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.3"
+    "react-helmet-async": "^2.0.5",
+    "react-i18next": "^14.1.0",
+    "react-router-dom": "^6.22.3",
+    "react-router-typesafe": "^1.5.0"
   },
   "devDependencies": {
     "@emotion/babel-plugin": "^11.11.0",
     "@types/d3": "^7.4.3",
+    "@types/qs": "^6.9.15",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^7.2.0",

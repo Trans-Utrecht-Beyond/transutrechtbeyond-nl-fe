@@ -1,42 +1,90 @@
 import { Option } from "prelude-ts";
-import { PropsWithChildren, ReactNode } from "react";
-import { NavLink } from "react-router-dom";
+import { Fragment, useCallback, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Outlet, useLoaderData, useSearchParams } from "react-router-dom";
+import Menu from "../../components/Menu";
 import Squigles from "../../components/Squigles";
+import { useLayoutSettings } from "../../contexts/layoutSettingsContext";
+import useCurrentLanguage from "../../hooks/useCurrentLanguage";
+import globalInformationLoader from "../../loaders/globalInformationLoader";
 import * as c from "./styled";
 
-type Props = {
-  header: Option<ReactNode>;
-};
+export default function BasePage() {
+  const [{ header: headerOpt, squiggleHeight }] = useLayoutSettings();
+  const currentLanguage = useCurrentLanguage();
+  const {
+    i18n: { changeLanguage },
+  } = useTranslation();
 
-export default function BasePage({
-  header: headerOpt = Option.none(),
-  children,
-}: PropsWithChildren<Props>) {
+  const shortLang = useMemo(
+    () => currentLanguage.split("-")[0],
+    [currentLanguage],
+  );
+
+  const [searchParams, setSearchParams] = useSearchParams({
+    lang: shortLang,
+  });
+
+  const { data } = useLoaderData() as Awaited<
+    ReturnType<typeof globalInformationLoader>
+  >;
+
+  useEffect(() => {
+    const spLang = searchParams.get("lang");
+    if (spLang && !currentLanguage.startsWith(spLang)) {
+      changeLanguage(spLang);
+    }
+  });
+
+  const toggleLanguage = useCallback(() => {
+    setSearchParams((params) => {
+      params.set("lang", shortLang === "en" ? "nl" : "en");
+      return params;
+    });
+  }, [shortLang, setSearchParams]);
+
   return (
-    <>
-      <Squigles maxHeight={Option.of(600)} lines={4} />
-      <c.Outer>
+    <c.Sizer>
+      <Squigles maxHeight={Option.of(squiggleHeight)} lines={4} />
+      {headerOpt
+        .map((header) => (
+          <c.Header>
+            <c.Inner>{header}</c.Inner>
+          </c.Header>
+        ))
+        .getOrNull()}
+      <c.Main>
         <c.Inner>
-          {headerOpt.map((header) => <c.Header>{header}</c.Header>).getOrNull()}
-          <c.Menu>
-            <NavLink to="/news">
-              <h3 className="underline">News &amp; Articles</h3>
-            </NavLink>
-            <NavLink to="/resources">
-              <h3 className="underline">Resources</h3>
-            </NavLink>
-            <NavLink to="/about">
-              <h3 className="underline">About TUB</h3>
-            </NavLink>
-            <NavLink to="/events">
-              <h3 className="underline">Events</h3>
-            </NavLink>
-          </c.Menu>
-          <c.MenuLine src="/marker-line.svg" aria-hidden />
-          <p>Test</p>
-          {children}
+          <Menu />
+          <Outlet />
         </c.Inner>
-      </c.Outer>
-    </>
+      </c.Main>
+      <c.Footer>
+        <c.FooterInner>
+          <c.FooterLogo aria-hidden src="/tub_logo.png" />
+          {data.attributes.Sections.map(({ Title, id, Description, Links }) => (
+            <div key={id}>
+              {Title.map((x) => <b>{x}</b>).getOrNull()}
+              {Description.map((x) => <p>{x}</p>).getOrNull()}
+              {Links.map(({ id: linkID, Target, Text }) => (
+                <Fragment key={linkID}>
+                  <a href={Target} target="_blank">
+                    {Text}
+                  </a>
+                  <br />
+                </Fragment>
+              ))}
+            </div>
+          ))}
+        </c.FooterInner>
+      </c.Footer>
+      <c.LanguageSwitcher onClick={toggleLanguage}>
+        {shortLang === "en" ? (
+          <c.Flag alt="NLD" src="/flag_nl.png" />
+        ) : (
+          <c.Flag alt="ENG" src="/flag_uk.png" />
+        )}
+      </c.LanguageSwitcher>
+    </c.Sizer>
   );
 }
