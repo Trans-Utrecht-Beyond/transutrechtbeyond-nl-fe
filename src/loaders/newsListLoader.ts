@@ -18,6 +18,11 @@ export default async function newListLoader({ request }: LoaderFunctionArgs) {
     locale: lang,
     populate: ["Authors"],
     sort: ["Date:desc"],
+    filters: {
+      Listed: {
+        $eq: true,
+      },
+    },
     pagination: {
       page,
     },
