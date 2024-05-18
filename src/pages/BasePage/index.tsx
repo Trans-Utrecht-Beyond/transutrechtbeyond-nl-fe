@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Outlet, useLoaderData, useSearchParams } from "react-router-dom";
 import Menu from "../../components/Menu";
 import Squigles from "../../components/Squigles";
+import { DEFAULT_LANGUAGE } from "../../constants";
 import { useLayoutSettings } from "../../contexts/layoutSettingsContext";
 import useCurrentLanguage from "../../hooks/useCurrentLanguage";
 import globalInformationLoader from "../../loaders/globalInformationLoader";
@@ -21,9 +22,7 @@ export default function BasePage() {
     [currentLanguage],
   );
 
-  const [searchParams, setSearchParams] = useSearchParams({
-    lang: shortLang,
-  });
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const { data } = useLoaderData() as Awaited<
     ReturnType<typeof globalInformationLoader>
@@ -33,8 +32,13 @@ export default function BasePage() {
     const spLang = searchParams.get("lang");
     if (spLang && !currentLanguage.startsWith(spLang)) {
       changeLanguage(spLang);
+    } else if (!spLang) {
+      setSearchParams((params) => {
+        params.set("lang", DEFAULT_LANGUAGE);
+        return params;
+      });
     }
-  });
+  }, [changeLanguage, currentLanguage, searchParams, setSearchParams]);
 
   const toggleLanguage = useCallback(() => {
     setSearchParams((params) => {
