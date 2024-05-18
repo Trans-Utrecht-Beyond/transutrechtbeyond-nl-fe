@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import { Fragment } from "react/jsx-runtime";
+import useCurrentLanguage from "../../hooks/useCurrentLanguage";
 import * as c from "./styled";
 
 const MENU_ITEMS = [
@@ -21,6 +22,7 @@ const MENU_ITEMS = [
 
 export default function Menu() {
   const { t } = useTranslation();
+  const lang = useCurrentLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = useCallback(() => {
@@ -28,7 +30,7 @@ export default function Menu() {
   }, []);
 
   const navLinks = MENU_ITEMS.map((x) => (
-    <NavLink to={x.path} key={x.path}>
+    <NavLink to={`${x.path}?lang=${lang}`} key={x.path}>
       <h3>{t("menu." + x.t)}</h3>
     </NavLink>
   ));
