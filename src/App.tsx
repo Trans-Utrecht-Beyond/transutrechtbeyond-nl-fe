@@ -39,6 +39,7 @@ i18n
             home: "Home",
             news: "News & Articles",
             events: "Events",
+            aboutUs: "About us",
           },
           events: {
             noEventsFound: "No events have been found...",
@@ -67,6 +68,7 @@ i18n
             home: "Startpagina",
             news: "Nieuws & Artikelen",
             events: "Evenementen",
+            aboutUs: "Over ons",
           },
           events: {
             noEventsFound: "Er zijn geen evenementen gevonden...",
