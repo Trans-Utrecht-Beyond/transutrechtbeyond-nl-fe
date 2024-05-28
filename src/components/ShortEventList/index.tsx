@@ -55,7 +55,7 @@ export default function ShortEventList({ events }: Props) {
       </c.List>
       {!noEventsFound && (
         <c.MoreEventsContainer>
-          <NavLink to="/evenementen">
+          <NavLink to={`/evenementen?lang=${currentLanguage}`}>
             <h4>
               <Arrow direction="E" />
               &nbsp;
