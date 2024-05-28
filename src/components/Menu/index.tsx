@@ -34,7 +34,7 @@ export default function Menu() {
   }, []);
 
   const navLinks = MENU_ITEMS.map((x) => (
-    <NavLink to={`${x.path}?lang=${lang}`} key={x.path}>
+    <NavLink to={`${x.path}?lang=${lang}`} key={x.path} end>
       <h3>{t("menu." + x.t)}</h3>
     </NavLink>
   ));
