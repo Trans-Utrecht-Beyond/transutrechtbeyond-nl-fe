@@ -77,6 +77,7 @@ export const FooterInner = styled(Inner)`
   font-size: 0.8rem;
 
   grid-template-columns: repeat(4, 25%);
+  overflow: hidden;
 
   @media screen and (max-width: 978px) {
     grid-template-columns: 100%;
