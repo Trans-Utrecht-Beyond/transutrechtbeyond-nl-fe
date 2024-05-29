@@ -37,7 +37,7 @@ i18n
           },
           menu: {
             home: "Home",
-            news: "News & Articles",
+            news: "News",
             events: "Events",
             aboutUs: "About us",
           },
@@ -52,6 +52,7 @@ i18n
             meetYourHost: "Meet your host",
           },
           articles: {
+            news: "News from TUB",
             aboutTheAuthor: "About the author",
             author_one: "Author",
             author_other: "Authors",
@@ -66,7 +67,7 @@ i18n
           },
           menu: {
             home: "Startpagina",
-            news: "Nieuws & Artikelen",
+            news: "Nieuws",
             events: "Evenementen",
             aboutUs: "Over ons",
           },
@@ -81,6 +82,7 @@ i18n
             meetYourHost: "Ontmoet je host",
           },
           articles: {
+            news: "Nieuws uit TUB",
             aboutTheAuthor: "Over de auteur",
             author_one: "Auteur",
             author_other: "Auteurs",

@@ -40,6 +40,7 @@ export default function NewsListPage() {
 
   return (
     <>
+      <h1>{t("articles.news")}</h1>
       {pagination}
       {loaderData.data.map((article) => (
         <c.Article key={article.attributes.Title}>
