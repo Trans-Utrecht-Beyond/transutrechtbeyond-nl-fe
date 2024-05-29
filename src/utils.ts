@@ -21,3 +21,7 @@ export function formatEventDate(
 export function formatEventSlug(start: Date, typeSlug: string, lang: string) {
   return `/evenementen/${formatISO9075(start)}/${typeSlug}?lang=${lang}`;
 }
+
+export function fixAssetURL(url: string) {
+  return url.startsWith("/") ? import.meta.env.VITE_STRAPI_URL + url : url;
+}

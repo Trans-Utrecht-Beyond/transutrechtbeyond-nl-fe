@@ -19,8 +19,12 @@ export default function ArticlePage() {
     <>
       <Helmet>
         <title>{article.attributes.Title} - Trans Utrecht & Beyond</title>
+        <meta name="og:title" content={article.attributes.Title} />
         {article.attributes.Summary.map((x) => (
-          <meta name="description" content={x} />
+          <>
+            <meta name="description" content={x} />
+            <meta name="og:description" content={x} />
+          </>
         )).getOrNull()}
       </Helmet>
       <h1>{article.attributes.Title}</h1>

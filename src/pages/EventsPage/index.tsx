@@ -4,6 +4,7 @@ import Arrow from "../../components/Arrow";
 
 import { Option } from "prelude-ts";
 import { useMemo } from "react";
+import { Helmet } from "react-helmet-async";
 import { useLoaderData } from "react-router-typesafe";
 import PaginationButtons from "../../components/PaginationButtons";
 import StrapiImage from "../../components/StrapiImage";
@@ -32,6 +33,10 @@ export default function EventsPage() {
 
   return (
     <>
+      <Helmet>
+        <title>{t("events.upcomingEvents")} - Trans Utrecht & Beyond</title>
+        <meta name="og:title" content={t("events.upcomingEvents")} />
+      </Helmet>
       <h1>{t("events.upcomingEvents")}</h1>
       {pagination}
       {loaderData.data.map((x) => {

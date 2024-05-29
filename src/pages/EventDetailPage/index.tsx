@@ -2,7 +2,9 @@ import * as GridC from "../../components/Grid";
 import Person from "../../components/Person";
 import RichText from "../../components/RichText";
 import StrapiImage from "../../components/StrapiImage";
+import { fixAssetURL } from "../../utils";
 
+import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useLoaderData } from "react-router-typesafe";
 import { throwUnknown } from "../../errors";
@@ -22,37 +24,51 @@ export default function EventDetailPage() {
 
   return (
     <>
-      <>
-        <GridC.Section>
-          <div className="double">
-            <c.Title>{eventType.data.attributes.Name}</c.Title>
-            <h3>
-              {formatEventDate(
-                loaderData.attributes.LengthInHours,
-                loaderData.attributes.Start,
-                currentLanguage,
-              )}
-            </h3>
-          </div>
-          {eventType.data.attributes.Images.data
-            .flatMap(getRandom)
-            .map((x) => {
-              return (
-                <StrapiImage
-                  className="mobile-hidden double"
-                  image={x.attributes}
-                />
-              );
-            })
-            .getOrNull()}
-        </GridC.Section>
-        <GridC.Line />
-        <GridC.Section>
-          <div className="full">
-            <RichText content={eventType.data.attributes.Description} />
-          </div>
-        </GridC.Section>
-      </>
+      <Helmet>
+        <title>{eventType.data.attributes.Name} - Trans Utrecht & Beyond</title>
+        <meta name="og:title" content={eventType.data.attributes.Name} />
+        <meta name="description" content={eventType.data.attributes.Summary} />
+        <meta
+          name="og:description"
+          content={eventType.data.attributes.Summary}
+        />
+        {eventType.data.attributes.Images.data
+          .flatMap(getRandom)
+          .map((x) => (
+            <meta name="og:image" content={fixAssetURL(x.attributes.url)} />
+          ))
+          .getOrNull()}
+      </Helmet>
+      <GridC.Section>
+        <div className="double">
+          <c.Title>{eventType.data.attributes.Name}</c.Title>
+          <h3>
+            {formatEventDate(
+              loaderData.attributes.LengthInHours,
+              loaderData.attributes.Start,
+              currentLanguage,
+            )}
+          </h3>
+        </div>
+        {eventType.data.attributes.Images.data
+          .flatMap(getRandom)
+          .map((x) => {
+            return (
+              <StrapiImage
+                className="mobile-hidden double"
+                image={x.attributes}
+              />
+            );
+          })
+          .getOrNull()}
+      </GridC.Section>
+      <GridC.Line />
+      <GridC.Section>
+        <div className="full">
+          <RichText content={eventType.data.attributes.Description} />
+        </div>
+      </GridC.Section>
+
       <GridC.Section style={{ alignItems: "stretch" }}>
         <div className="double">
           <h2>{t("events.aboutTheLocation")}</h2>
