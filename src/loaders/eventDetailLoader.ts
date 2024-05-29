@@ -1,4 +1,5 @@
 import { humanizeErrors } from "@prelude-io/core";
+import { formatISO } from "date-fns";
 import QueryString from "qs";
 import { LoaderFunction } from "react-router-typesafe";
 import { UNKNOWN, throwNotFound } from "../errors";
@@ -19,7 +20,7 @@ export default (async function eventDetailLoader(args) {
       "Host.Picture",
     ],
     filters: {
-      Start: params.date,
+      Start: formatISO(params.date!),
       EventType: {
         Slug: params.slug,
       },
