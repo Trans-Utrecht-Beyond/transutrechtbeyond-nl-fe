@@ -34,10 +34,13 @@ export default function BasePage() {
     if (spLang && !currentLanguage.startsWith(spLang)) {
       changeLanguage(spLang);
     } else if (!spLang) {
-      setSearchParams((params) => {
-        params.set("lang", DEFAULT_LANGUAGE);
-        return params;
-      });
+      setSearchParams(
+        (params) => {
+          params.set("lang", DEFAULT_LANGUAGE);
+          return params;
+        },
+        { replace: true },
+      );
     }
   }, [changeLanguage, currentLanguage, searchParams, setSearchParams]);
 
