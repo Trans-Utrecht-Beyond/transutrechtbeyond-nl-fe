@@ -56,13 +56,13 @@ export default function PaginationButtons({ pageCount, page }: Props) {
         &lt;
       </NavLink>
       {pagesShown.map((n) => {
-        const valid = n < 1 || n > pageCount;
+        const valid = 1 <= n && n <= pageCount;
         return (
           <NavLink
             key={"goToPage" + n}
             to={{ search: searchFor(n) }}
             style={{
-              visibility: valid ? "hidden" : undefined,
+              visibility: valid ? "visible" : "hidden",
               textDecoration: n === page ? "underline" : "none",
             }}
           >
