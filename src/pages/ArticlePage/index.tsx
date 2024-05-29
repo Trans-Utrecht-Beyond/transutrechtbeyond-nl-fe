@@ -6,12 +6,12 @@ import DynamicContent from "../../components/DynamicContent";
 import Person from "../../components/Person";
 import ShortEventList from "../../components/ShortEventList";
 import { throwUnknown } from "../../errors";
-import newsItemLoader from "../../loaders/newsItemLoader";
+import articleLoader from "../../loaders/articleLoader";
 import * as c from "./styled";
 
-export default function NewsItemPage() {
+export default function ArticlePage() {
   const { t } = useTranslation();
-  const loaderData = useLoaderData<typeof newsItemLoader>();
+  const loaderData = useLoaderData<typeof articleLoader>();
 
   const { article, upcomingEvents: upcomingEventsPromise } = loaderData;
 

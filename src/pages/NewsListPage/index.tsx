@@ -43,9 +43,7 @@ export default function NewsListPage() {
       {pagination}
       {loaderData.data.map((article) => (
         <c.Article key={article.attributes.Title}>
-          <NavLink
-            to={`/nieuws/${article.attributes.Slug}?lang=${currentLanguage}`}
-          >
+          <NavLink to={`/${article.attributes.Slug}?lang=${currentLanguage}`}>
             <h3>
               <Arrow direction="E" /> &nbsp;
               {article.attributes.Title}

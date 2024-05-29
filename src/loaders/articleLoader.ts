@@ -5,7 +5,7 @@ import { UNKNOWN, throwNotFound } from "../errors";
 import { fetchArticles } from "../io";
 import makeUpcomingEventListLoader from "./makeUpcomingEventListLoader";
 
-export default async function newsItemLoader(args: LoaderFunctionArgs) {
+export default async function articleLoader(args: LoaderFunctionArgs) {
   const { request, params } = args;
   const searchParams = new URL(request.url).searchParams;
   const lang = searchParams.get("lang") ?? "nl";

@@ -8,20 +8,20 @@ import i18n from "i18next";
 import I18nextBrowserLanguageDetector from "i18next-browser-languagedetector/cjs";
 import { initReactI18next } from "react-i18next";
 import { LayoutSettingsContext } from "./contexts/layoutSettingsContext";
+import articleLoader from "./loaders/articleLoader";
 import eventDetailLoader from "./loaders/eventDetailLoader";
 import globalInformationLoader from "./loaders/globalInformationLoader";
 import homeLoader from "./loaders/homeLoader";
 import linkInBioLoader from "./loaders/linkInBioLoader";
 import makeUpcomingEventListLoader from "./loaders/makeUpcomingEventListLoader";
-import newsItemLoader from "./loaders/newsItemLoader";
 import newsListLoader from "./loaders/newsListLoader";
+import ArticlePage from "./pages/ArticlePage";
 import BasePage from "./pages/BasePage";
 import ErrorPage from "./pages/ErrorPage";
 import EventDetailPage from "./pages/EventDetailPage";
 import EventsPage from "./pages/EventsPage";
 import HomePage from "./pages/HomePage";
 import LinkInBioPage from "./pages/LinkInBioPage";
-import NewsItemPage from "./pages/NewsItemPage";
 import NewsListPage from "./pages/NewsListPage";
 
 i18n
@@ -116,7 +116,6 @@ const router = createBrowserRouter([
         element: <Outlet />,
         children: [
           { index: true, element: <NewsListPage />, loader: newsListLoader },
-          { path: ":slug", loader: newsItemLoader, element: <NewsItemPage /> },
         ],
       },
       {
@@ -135,6 +134,7 @@ const router = createBrowserRouter([
           },
         ],
       },
+      { path: ":slug", loader: articleLoader, element: <ArticlePage /> },
     ],
   },
 ]);

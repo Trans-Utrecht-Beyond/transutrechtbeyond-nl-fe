@@ -6,7 +6,7 @@ import { DEFAULT_LANGUAGE } from "../constants";
 import { UNKNOWN } from "../errors";
 import { fetchArticles } from "../io";
 
-export default async function newListLoader({ request }: LoaderFunctionArgs) {
+export default async function newsListLoader({ request }: LoaderFunctionArgs) {
   const getSearchParam = Option.liftNullable((x) =>
     new URL(request.url).searchParams.get(x),
   );

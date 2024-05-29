@@ -15,7 +15,7 @@ const MENU_ITEMS = [
     t: "news",
   },
   {
-    path: "/nieuws/over-ons",
+    path: "/over-ons",
     t: "aboutUs",
   },
   {
