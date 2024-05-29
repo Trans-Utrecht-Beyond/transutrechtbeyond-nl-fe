@@ -3,7 +3,7 @@ import { enGB, nl } from "date-fns/locale";
 import { Vector } from "prelude-ts";
 
 export function getRandom<T>(v: Vector<T>) {
-  return v.get(Math.floor(v.length() - 1 * Math.random()));
+  return v.get(Math.floor(v.length() * Math.random()));
 }
 
 export function formatEventDate(

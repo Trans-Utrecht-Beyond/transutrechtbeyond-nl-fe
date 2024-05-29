@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import Arrow from "../../components/Arrow";
 
+import { Option } from "prelude-ts";
 import { useMemo } from "react";
 import { useLoaderData } from "react-router-typesafe";
 import PaginationButtons from "../../components/PaginationButtons";
@@ -73,7 +74,11 @@ export default function EventsPage() {
               .flatMap(getRandom)
               .map((x) => {
                 return (
-                  <StrapiImage className="mobile-hidden" image={x.attributes} />
+                  <StrapiImage
+                    className="mobile-hidden"
+                    image={x.attributes}
+                    size={Option.of("medium")}
+                  />
                 );
               })
               .getOrNull()}
