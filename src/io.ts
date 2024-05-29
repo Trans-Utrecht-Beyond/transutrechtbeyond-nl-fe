@@ -170,7 +170,7 @@ const EventTypeBus = StrapiDocumentBus(
     Slug: io.string,
     Description: StrapiRichTextBus,
     Images: StrapiRelationBus(
-      io.Vector(StrapiDocumentBus(StrapiImageObjectBus)),
+      io.Optional(io.Vector(StrapiDocumentBus(StrapiImageObjectBus))),
     ),
   }),
 );

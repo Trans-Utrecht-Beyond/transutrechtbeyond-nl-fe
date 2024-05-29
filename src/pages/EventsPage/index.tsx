@@ -69,7 +69,8 @@ export default function EventsPage() {
                 </h3>
               </NavLink>
             </div>
-            {getRandom(eventType.attributes.Images.data)
+            {eventType.attributes.Images.data
+              .flatMap(getRandom)
               .map((x) => {
                 return (
                   <StrapiImage className="mobile-hidden" image={x.attributes} />

@@ -34,7 +34,8 @@ export default function EventDetailPage() {
               )}
             </h3>
           </div>
-          {getRandom(eventType.data.attributes.Images.data)
+          {eventType.data.attributes.Images.data
+            .flatMap(getRandom)
             .map((x) => {
               return (
                 <StrapiImage
