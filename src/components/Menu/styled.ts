@@ -29,4 +29,7 @@ export const MobileMenu = styled.div`
   display: grid;
   justify-content: center;
   text-align: center;
+  .material-symbols-outlined {
+    cursor: pointer;
+  }
 `;
