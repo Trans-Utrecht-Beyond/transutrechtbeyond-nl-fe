@@ -182,6 +182,7 @@ const EventBus = StrapiDocumentBus(
     Host: io.Optional(StrapiRelationBus(PersonBus)),
     EventType: io.Optional(StrapiRelationBus(EventTypeBus)),
     EventLocation: io.Optional(StrapiRelationBus(EventLocationBus)),
+    ExtraDescription: io.Optional(StrapiRichTextBus),
   }),
 );
 
