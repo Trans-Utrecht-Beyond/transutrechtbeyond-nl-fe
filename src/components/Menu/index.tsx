@@ -10,10 +10,10 @@ const MENU_ITEMS = [
     path: "/",
     t: "home",
   },
-  {
-    path: "/nieuws",
-    t: "news",
-  },
+  // {
+  //   path: "/nieuws",
+  //   t: "news",
+  // },
   {
     path: "/over-ons",
     t: "aboutUs",

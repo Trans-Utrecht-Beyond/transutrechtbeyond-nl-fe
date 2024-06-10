@@ -66,6 +66,9 @@ export default function EventDetailPage() {
       <GridC.Section>
         <div className="full">
           <RichText content={eventType.data.attributes.Description} />
+          {loaderData.attributes.ExtraDescription.map((x) => (
+            <RichText content={x} />
+          )).getOrNull()}
         </div>
       </GridC.Section>
 
