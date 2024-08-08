@@ -227,12 +227,20 @@ const LinkInBioBus = StrapiDocumentBus(
   }),
 );
 
+const PermalinkBus = StrapiDocumentBus(
+  io.Complex("Permalink", {
+    Target: io.string,
+    Path: io.string,
+  }),
+);
+
 const EventsResponseBus = StrapiResponseBus(io.Vector(EventBus));
 const ArticlesResponseBus = StrapiResponseBus(io.Vector(ArticleBus));
 const EventDetailsResponseBus = StrapiResponseBus(EventBus);
 const HomeResponseBus = StrapiResponseBus(HomeBus);
 const GlobalInformationResponseBus = StrapiResponseBus(GeneralInformationBus);
 const LinkInBioResponseBus = StrapiResponseBus(LinkInBioBus);
+const PermalinkResponseBus = StrapiResponseBus(io.Vector(PermalinkBus));
 
 export type ComponentArticleBasicText = io.BusOutputType<
   typeof ComponentArticleBasicTextBus
@@ -256,6 +264,7 @@ export type StrapiResponse = io.BusOutputType<
   ReturnType<typeof StrapiResponseBus>
 >;
 export type ArticlesResponse = io.BusOutputType<typeof ArticlesResponseBus>;
+export type PermalinkResponse = io.BusOutputType<typeof PermalinkResponseBus>;
 
 export const fetchArticles = ioFetch(ArticlesResponseBus);
 export const fetchHome = ioFetch(HomeResponseBus);
@@ -263,3 +272,4 @@ export const fetchGlobalInformation = ioFetch(GlobalInformationResponseBus);
 export const fetchEventDetails = ioFetch(EventDetailsResponseBus);
 export const fetchEvents = ioFetch(EventsResponseBus);
 export const fetchLinkInBio = ioFetch(LinkInBioResponseBus);
+export const fetchPermalinks = ioFetch(PermalinkResponseBus);
