@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 
 export const A = styled.a`
   color: var(--color-blueish);
+  text-decoration: underline;
 `;
 
 export const Blockquote = styled.blockquote`
