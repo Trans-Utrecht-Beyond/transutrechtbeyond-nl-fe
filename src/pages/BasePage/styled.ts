@@ -38,9 +38,9 @@ export const LanguageSwitcher = styled.button`
 
   border-radius: 50%;
 
-  position: absolute;
-  right: 0px;
-  top: 0px;
+  position: fixed;
+  right: 0;
+  top: 0;
 
   color: white;
 
@@ -100,4 +100,8 @@ export const FooterLogo = styled.img`
 
   background: white;
   border-radius: 50%;
+`;
+
+export const FooterText = styled.div`
+  white-space: pre-wrap;
 `;

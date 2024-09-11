@@ -78,18 +78,24 @@ export default function BasePage() {
             <c.FooterLogo aria-hidden src="/tub_logo.png" />
             {data.attributes.Sections.map(
               ({ Title, id, Description, Links }) => (
-                <div key={id}>
-                  {Title.map((x) => <b>{x}</b>).getOrNull()}
-                  {Description.map((x) => <p>{x}</p>).getOrNull()}
-                  {Links.map(({ id: linkID, Target, Text }) => (
-                    <Fragment key={linkID}>
-                      <a href={Target} target="_blank">
-                        {Text}
-                      </a>
-                      <br />
-                    </Fragment>
-                  ))}
-                </div>
+                <c.FooterText key={id}>
+                  {Title.filter((x) => x.trim().length !== 0)
+                    .map((x) => <b>{x}</b>)
+                    .getOrNull()}
+                  {Description.filter((x) => x.trim().length !== 0)
+                    .map((x) => <p>{x}</p>)
+                    .getOrNull()}
+                  <p>
+                    {Links.map(({ id: linkID, Target, Text }) => (
+                      <Fragment key={linkID}>
+                        <a href={Target} target="_blank">
+                          {Text}
+                        </a>
+                        <br />
+                      </Fragment>
+                    ))}
+                  </p>
+                </c.FooterText>
               ),
             )}
           </c.FooterInner>
