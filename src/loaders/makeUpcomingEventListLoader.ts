@@ -4,7 +4,7 @@ import { Option } from "prelude-ts";
 import QueryString from "qs";
 import { LoaderFunctionArgs } from "react-router-dom";
 import { DEFAULT_LANGUAGE } from "../constants";
-import { UNKNOWN } from "../errors";
+import { NOT_FOUND, throwUnknown, UNKNOWN } from "../errors";
 import { fetchEvents } from "../io";
 
 export default function makeUpcomingEventListLoader(pageSize: number) {
@@ -43,6 +43,15 @@ export default function makeUpcomingEventListLoader(pageSize: number) {
       console.error(humanizeErrors(data.getLeft()));
 
       throw UNKNOWN;
+    }
+
+    const pageCount = data
+      .get()
+      .meta.pagination.map(({ pageCount }) => pageCount)
+      .getOrCall(throwUnknown);
+
+    if (page && page > pageCount) {
+      throw NOT_FOUND;
     }
 
     return data.get();

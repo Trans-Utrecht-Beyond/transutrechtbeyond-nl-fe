@@ -57,6 +57,10 @@ export default function BasePage() {
         <title>Trans Utrecht & Beyond</title>
         <meta name="og:title" content="Trans Utrecht & Beyond" />
         <meta name="og:image" content={"/tub_logo.png"} />
+        <meta
+          name="canonical"
+          content={window.location.href.replace(location.hash, "")}
+        />
       </Helmet>
       <c.Sizer>
         <Squigles maxHeight={Option.of(squiggleHeight)} lines={4} />
