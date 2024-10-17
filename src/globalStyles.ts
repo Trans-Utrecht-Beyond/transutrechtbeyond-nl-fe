@@ -21,18 +21,18 @@ export const styles = css`
   }
 
   h1 {
-    font-family: "OpenDyslexic";
+    font-family: "OpenDyslexic", sans-serif;
     font-size: var(--font-size-h1);
   }
 
   h2 {
-    font-family: "OpenDyslexic";
+    font-family: "OpenDyslexic", sans-serif;
     font-size: var(--font-size-h2);
   }
 
   h3,
   h4 {
-    font-family: "OpenDyslexic";
+    font-family: "OpenDyslexic", sans-serif;
   }
 
   p {

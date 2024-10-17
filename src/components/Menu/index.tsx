@@ -1,42 +1,114 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { Fragment } from "react/jsx-runtime";
 import useCurrentLanguage from "../../hooks/useCurrentLanguage";
 import * as c from "./styled";
 
-const MENU_ITEMS = [
+type MenuItem = {
+  t: string;
+  content: string | MenuItem[];
+};
+
+const MENU_ITEMS: MenuItem[] = [
   {
-    path: "/",
     t: "home",
+    content: "/",
   },
   // {
-  //   path: "/nieuws",
   //   t: "news",
+  //   content: "/nieuws",
   // },
   {
-    path: "/over-ons",
     t: "aboutUs",
+    content: "/over-ons",
   },
   {
-    path: "/evenementen",
     t: "events",
+    content: "/evenementen",
   },
 ];
 
-export default function Menu() {
+function MenuItemComponent({ item }: { item: MenuItem }) {
   const { t } = useTranslation();
   const lang = useCurrentLanguage();
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const label = (
+    <c.NavLabel>
+      {t("menu." + item.t)}
+      {typeof item.content !== "string" && <span>{isOpen ? "⌃" : "⌄"}</span>}
+    </c.NavLabel>
+  );
+
+  const handlePointerEnter = useCallback(() => {
+    setIsOpen(true);
+  }, []);
+
+  const handlePointerLeave = useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
+  const handleClick = useCallback(() => {
+    setIsOpen((x) => !x);
+  }, []);
+
+  if (typeof item.content === "string") {
+    return (
+      <NavLink to={`${item.content}?lang=${lang}`} end>
+        {label}
+      </NavLink>
+    );
+  }
+
+  return (
+    <c.SubMenu
+      onMouseEnter={handlePointerEnter}
+      onMouseLeave={handlePointerLeave}
+      onClick={handleClick}
+    >
+      {label}
+      <c.SubMenuWrapper>
+        {isOpen && (
+          <>
+            <c.SubMenuLine
+              src={"/marker-line-vertical.svg"}
+              aria-hidden
+              className="mobile-hidden"
+              style={{ left: -4 }}
+            />
+            {item.content.map((x) => (
+              <MenuItemComponent key={x.t} item={x} />
+            ))}
+            <c.SubMenuLine
+              src={"/marker-line-vertical.svg"}
+              aria-hidden
+              className="mobile-hidden"
+              style={{ right: -4, transform: "rotate(180deg)" }}
+            />
+          </>
+        )}
+      </c.SubMenuWrapper>
+    </c.SubMenu>
+  );
+}
+
+export default function Menu() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { pathname, search } = useLocation();
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    window.scrollTo(0, 0);
+  }, [pathname, search]);
 
   const toggleMobileMenu = useCallback(() => {
     setMobileMenuOpen((x) => !x);
   }, []);
 
   const navLinks = MENU_ITEMS.map((x) => (
-    <NavLink to={`${x.path}?lang=${lang}`} key={x.path} end>
-      <h3>{t("menu." + x.t)}</h3>
-    </NavLink>
+    <MenuItemComponent key={x.t} item={x} />
   ));
 
   return (
