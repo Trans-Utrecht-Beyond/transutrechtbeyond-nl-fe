@@ -13,11 +13,11 @@ export default function LinkInBioPage() {
         <meta name="robots" content="noindex" />
       </Helmet>
       <c.Container>
-        {loaderData.data.attributes.Link.map((x) => (
-          <h3 key={x.Text}>
+        {loaderData.data.Link.map(({ Text, Target }) => (
+          <h3 key={Text}>
             <Arrow direction="E" />
             &nbsp;
-            <a href={x.Target}>{x.Text}</a>
+            <a href={Target}>{Text}</a>
           </h3>
         ))}
       </c.Container>

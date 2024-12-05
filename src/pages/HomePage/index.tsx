@@ -24,7 +24,7 @@ export default function HomePage() {
             Utrecht <br />
             &amp; Beyond
           </h1>
-          <p className="double">{loaderData.home.data.attributes.Header}</p>
+          <p className="double">{loaderData.home.data.Header}</p>
         </GridC.Section>
         <GridC.Line />
       </>,
@@ -33,11 +33,7 @@ export default function HomePage() {
     setLayoutSettings((x) => ({ ...x, header, squiggleHeight: 600 }));
 
     return resetLayoutSettings;
-  }, [
-    loaderData.home.data.attributes.Header,
-    resetLayoutSettings,
-    setLayoutSettings,
-  ]);
+  }, [loaderData.home.data.Header, resetLayoutSettings, setLayoutSettings]);
 
   return (
     <GridC.Section>

@@ -40,34 +40,25 @@ export default function EventsPage() {
       <h1>{t("events.upcomingEvents")}</h1>
       {pagination}
       {loaderData.data.map((x) => {
-        const eventType = x.attributes.EventType.getOrCall(throwUnknown).data;
-        const eventLocation =
-          x.attributes.EventLocation.getOrCall(throwUnknown).data;
+        const eventType = x.EventType.getOrCall(throwUnknown);
+        const eventLocation = x.EventLocation.getOrCall(throwUnknown);
 
         return (
-          <c.EventContainer key={x.id}>
+          <c.EventContainer key={x.documentId}>
             <div>
-              <h3>{eventType.attributes.Name}</h3>
+              <h3>{eventType.Name}</h3>
               <p>
                 <b>{t("events.when")}:</b>
                 &nbsp;
-                {formatEventDate(
-                  x.attributes.LengthInHours,
-                  x.attributes.Start,
-                  currentLanguage,
-                )}
+                {formatEventDate(x.LengthInHours, x.Start, currentLanguage)}
                 <br />
                 <b>{t("events.where")}:</b>
                 &nbsp;
-                {eventLocation.attributes.Name}
+                {eventLocation.Name}
               </p>
-              <p>{eventType.attributes.Summary}</p>
+              <p>{eventType.Summary}</p>
               <NavLink
-                to={formatEventSlug(
-                  x.attributes.Start,
-                  eventType.attributes.Slug,
-                  currentLanguage,
-                )}
+                to={formatEventSlug(x.Start, eventType.Slug, currentLanguage)}
               >
                 <h3>
                   <Arrow direction="E" /> &nbsp;
@@ -75,13 +66,12 @@ export default function EventsPage() {
                 </h3>
               </NavLink>
             </div>
-            {eventType.attributes.Images.data
-              .flatMap(getRandom)
+            {eventType.Images.flatMap(getRandom)
               .map((x) => {
                 return (
                   <StrapiImage
                     className="mobile-hidden"
-                    image={x.attributes}
+                    image={x}
                     size={Option.of("medium")}
                   />
                 );

@@ -1,6 +1,6 @@
 import { FormatDateOptions, format } from "date-fns";
 import { enGB, nl } from "date-fns/locale";
-import { Function3 } from "prelude-ts";
+import { Function3, Vector } from "prelude-ts";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, useLoaderData } from "react-router-dom";
@@ -42,30 +42,32 @@ export default function NewsListPage() {
     <>
       <h1>{t("articles.news")}</h1>
       {pagination}
-      {loaderData.data.map((article) => (
-        <c.Article key={article.attributes.Title}>
-          <NavLink to={`/${article.attributes.Slug}?lang=${currentLanguage}`}>
-            <h3>
-              <Arrow direction="E" /> &nbsp;
-              {article.attributes.Title}
-            </h3>
-          </NavLink>
-          <b>{t("misc.date")}:</b> &nbsp;
-          {formatDate(article.attributes.Date)} <br />
-          {article.attributes.Authors.filter((x) => !x.data.isEmpty())
-            .map((authors) => (
-              <>
-                <b>{t("articles.author", { count: authors.data.length() })}:</b>
-                &nbsp;
-                {authors.data
-                  .map((author) => author.attributes.Name)
-                  .foldLeft("", (acc, x) => (!acc ? x : acc + ", " + x))}
-              </>
-            ))
-            .getOrNull()}
-          {article.attributes.Summary.map((x) => <p>{x}</p>).getOrNull()}
-        </c.Article>
-      ))}
+      {loaderData.data.map(
+        ({ Title, Slug, Date, Authors: AuthorsOpt, Summary }) => (
+          <c.Article key={Title}>
+            <NavLink to={`/${Slug}?lang=${currentLanguage}`}>
+              <h3>
+                <Arrow direction="E" /> &nbsp;
+                {Title}
+              </h3>
+            </NavLink>
+            <b>{t("misc.date")}:</b> &nbsp;
+            {formatDate(Date)} <br />
+            {AuthorsOpt.filter(Vector.isNotEmpty)
+              .map((authors) => (
+                <>
+                  <b>{t("articles.author", { count: authors.length() })}:</b>
+                  &nbsp;
+                  {authors
+                    .map((author) => author.Name)
+                    .foldLeft("", (acc, x) => (!acc ? x : acc + ", " + x))}
+                </>
+              ))
+              .getOrNull()}
+            {Summary.map((x) => <p>{x}</p>).getOrNull()}
+          </c.Article>
+        ),
+      )}
       {pagination}
     </>
   );

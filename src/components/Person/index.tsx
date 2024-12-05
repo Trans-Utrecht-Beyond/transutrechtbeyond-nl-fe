@@ -17,16 +17,16 @@ export default function Person({ person, caption, className }: Props) {
       <c.Caption>{caption}</c.Caption>
       <c.ImageWrapper>
         <c.Logo />
-        {person.attributes.Picture.map((x) => (
+        {person.Picture.map((image) => (
           <c.ImageContainer>
-            <c.Image image={x.data.attributes} size={Option.of("small")} />
+            <c.Image image={image} size={Option.of("small")} />
             <c.Name>
-              <h3>{person.attributes.Name}</h3>
+              <h3>{person.Name}</h3>
             </c.Name>
           </c.ImageContainer>
         )).getOrCall(throwUnknown)}
       </c.ImageWrapper>
-      <RichText content={person.attributes.Description} />
+      <RichText content={person.Description} />
     </c.Container>
   );
 }

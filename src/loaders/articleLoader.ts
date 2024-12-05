@@ -44,7 +44,7 @@ export default async function articleLoader(args: LoaderFunctionArgs) {
 
     const newTarget = (
       permalinkData.toOption() as Option<PermalinkResponse>
-    ).flatMap((x) => x.data.single().map((y) => y.attributes.Target));
+    ).flatMap((x) => x.data.single().map((y) => y.Target));
 
     if (newTarget.isSome()) {
       return redirect(newTarget.get());

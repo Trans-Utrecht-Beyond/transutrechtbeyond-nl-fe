@@ -22,36 +22,36 @@ export default function ShortEventList({ events }: Props) {
       <c.List>
         {noEventsFound
           ? t("events.noEventsFound")
-          : events.map((x) => {
-              const eventType =
-                x.attributes.EventType.getOrCall(throwUnknown).data;
-              const eventLocation =
-                x.attributes.EventLocation.getOrCall(throwUnknown).data;
-              return (
-                <li key={x.id}>
-                  <NavLink
-                    to={formatEventSlug(
-                      x.attributes.Start,
-                      eventType.attributes.Slug,
-                      currentLanguage,
-                    )}
-                  >
-                    <c.Title className="underline">
-                      {eventType.attributes.Name}
-                    </c.Title>
-                    <span>
-                      {formatEventDate(
-                        x.attributes.LengthInHours,
-                        x.attributes.Start,
+          : events.map(
+              ({
+                EventType,
+                EventLocation,
+                documentId,
+                Start,
+                LengthInHours,
+              }) => {
+                const eventType = EventType.getOrCall(throwUnknown);
+                const eventLocation = EventLocation.getOrCall(throwUnknown);
+                return (
+                  <li key={documentId}>
+                    <NavLink
+                      to={formatEventSlug(
+                        Start,
+                        eventType.Slug,
                         currentLanguage,
                       )}
-                      &nbsp;@&nbsp;
-                      {eventLocation.attributes.Name}
-                    </span>
-                  </NavLink>
-                </li>
-              );
-            })}
+                    >
+                      <c.Title className="underline">{eventType.Name}</c.Title>
+                      <span>
+                        {formatEventDate(LengthInHours, Start, currentLanguage)}
+                        &nbsp;@&nbsp;
+                        {eventLocation.Name}
+                      </span>
+                    </NavLink>
+                  </li>
+                );
+              },
+            )}
       </c.List>
       {!noEventsFound && (
         <c.MoreEventsContainer>

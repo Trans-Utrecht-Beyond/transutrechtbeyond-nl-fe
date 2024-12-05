@@ -17,56 +17,43 @@ export default function EventDetailPage() {
   const { t } = useTranslation();
   const currentLanguage = useCurrentLanguage();
   const loaderData = useLoaderData<typeof eventDetailLoader>();
-  const eventType = loaderData.attributes.EventType.getOrCall(throwUnknown);
-  const host = loaderData.attributes.Host.getOrCall(throwUnknown);
-  const eventLocation =
-    loaderData.attributes.EventLocation.getOrCall(throwUnknown);
+  const eventType = loaderData.EventType.getOrCall(throwUnknown);
+  const host = loaderData.Host.getOrCall(throwUnknown);
+  const eventLocation = loaderData.EventLocation.getOrCall(throwUnknown);
 
   return (
     <>
       <Helmet>
-        <title>{eventType.data.attributes.Name} - Trans Utrecht & Beyond</title>
-        <meta name="og:title" content={eventType.data.attributes.Name} />
-        <meta name="description" content={eventType.data.attributes.Summary} />
-        <meta
-          name="og:description"
-          content={eventType.data.attributes.Summary}
-        />
-        {eventType.data.attributes.Images.data
-          .flatMap(getRandom)
-          .map((x) => (
-            <meta name="og:image" content={fixAssetURL(x.attributes.url)} />
-          ))
+        <title>{eventType.Name} - Trans Utrecht & Beyond</title>
+        <meta name="og:title" content={eventType.Name} />
+        <meta name="description" content={eventType.Summary} />
+        <meta name="og:description" content={eventType.Summary} />
+        {eventType.Images.flatMap(getRandom)
+          .map((x) => <meta name="og:image" content={fixAssetURL(x.url)} />)
           .getOrNull()}
       </Helmet>
       <GridC.Section>
         <div className="double">
-          <c.Title>{eventType.data.attributes.Name}</c.Title>
+          <c.Title>{eventType.Name}</c.Title>
           <h3>
             {formatEventDate(
-              loaderData.attributes.LengthInHours,
-              loaderData.attributes.Start,
+              loaderData.LengthInHours,
+              loaderData.Start,
               currentLanguage,
             )}
           </h3>
         </div>
-        {eventType.data.attributes.Images.data
-          .flatMap(getRandom)
+        {eventType.Images.flatMap(getRandom)
           .map((x) => {
-            return (
-              <StrapiImage
-                className="mobile-hidden double"
-                image={x.attributes}
-              />
-            );
+            return <StrapiImage className="mobile-hidden double" image={x} />;
           })
           .getOrNull()}
       </GridC.Section>
       <GridC.Line />
       <GridC.Section>
         <div className="full">
-          <RichText content={eventType.data.attributes.Description} />
-          {loaderData.attributes.ExtraDescription.map((x) => (
+          <RichText content={eventType.Description} />
+          {loaderData.ExtraDescription.map((x) => (
             <RichText content={x} />
           )).getOrNull()}
         </div>
@@ -75,13 +62,13 @@ export default function EventDetailPage() {
       <GridC.Section style={{ alignItems: "stretch" }}>
         <div className="double">
           <h2>{t("events.aboutTheLocation")}</h2>
-          <b>{eventLocation.data.attributes.Name}</b>
+          <b>{eventLocation.Name}</b>
           <br />
-          {eventLocation.data.attributes.Address}
-          <p>{eventLocation.data.attributes.Description}</p>
+          {eventLocation.Address}
+          <p>{eventLocation.Description}</p>
         </div>
         <div className="double">
-          <Person person={host.data} caption={t("events.meetYourHost")} />
+          <Person person={host} caption={t("events.meetYourHost")} />
         </div>
       </GridC.Section>
     </>

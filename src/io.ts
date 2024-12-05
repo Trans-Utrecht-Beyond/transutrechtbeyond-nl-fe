@@ -1,5 +1,6 @@
 import * as io from "@prelude-io/core";
 import { ioFetch } from "@prelude-io/fetch";
+import { ComplexFields } from "@prelude-io/core";
 
 const LocaleBus = io.Literal("en").else(io.Literal("nl"));
 
@@ -18,11 +19,17 @@ const StrapiResponseBus = <Bus extends io.Bus>(data: Bus) =>
     }),
   });
 
-const StrapiDocumentBus = <Bus extends io.Bus>(attributes: Bus) =>
-  io.Complex("Document[" + attributes.name + "]", {
-    id: io.positiveNumber,
-    attributes,
-  });
+const StrapiDocumentBus = <AttributeFields extends ComplexFields>(
+  name: string,
+  attributes: AttributeFields,
+) => {
+  const fields = {
+    documentId: io.string,
+    ...attributes,
+  };
+
+  return io.Complex("Document[" + name + "]", fields);
+};
 
 const StrapiComponentBus = <Fields extends io.ComplexFields>(
   name: string,
@@ -33,10 +40,7 @@ const StrapiComponentBus = <Fields extends io.ComplexFields>(
     ...fields,
   });
 
-const StrapiRelationBus = <Bus extends io.Bus>(data: Bus) =>
-  io.Complex("Relation[" + data.name + "]", { data });
-
-const StrapiBaseImageFieldsBus = {
+const StrapiBaseImageFields = {
   ext: io.string,
   url: io.string,
   hash: io.string,
@@ -48,19 +52,21 @@ const StrapiBaseImageFieldsBus = {
   height: io.number,
 } satisfies io.ComplexFields;
 
-const StrapiImageObjectBus = io.Complex("StrapiImage", {
-  ...StrapiBaseImageFieldsBus,
+const StrapiImageObjectFields = {
+  ...StrapiBaseImageFields,
   alternativeText: io.Optional(io.string),
   formats: io.objectEntries.chain(
     // @ts-expect-error - This validates the type
     io.HashMap(
       io.string,
       io.Complex("StrapiImageFormat", {
-        ...StrapiBaseImageFieldsBus,
+        ...StrapiBaseImageFields,
       }),
     ),
   ),
-});
+};
+
+const StrapiImageObjectBus = io.Complex("StrapiImage", StrapiImageObjectFields);
 
 const StrapiRTTextBus = io.Complex("StrapiRTText", {
   type: io.Literal("text"),
@@ -142,97 +148,75 @@ const ComponentArticleBasicTextBus = DynamicItem("article.basic-text", {
   Content: StrapiRichTextBus,
 });
 
-const PersonBus = StrapiDocumentBus(
-  io.Complex("Person", {
-    Name: io.string,
-    Role: io.string,
-    Pronouns: io.string,
-    Picture: io.Optional(
-      StrapiRelationBus(StrapiDocumentBus(StrapiImageObjectBus)),
-    ),
-    Order: io.Optional(io.validNumber),
-    Description: StrapiRichTextBus,
-  }),
-);
+const PersonBus = StrapiDocumentBus("Person", {
+  Name: io.string,
+  Role: io.string,
+  Pronouns: io.string,
+  Picture: io.Optional(StrapiImageObjectBus),
+  Order: io.Optional(io.validNumber),
+  Description: StrapiRichTextBus,
+});
 
-const EventLocationBus = StrapiDocumentBus(
-  io.Complex("EventLocation", {
-    Name: io.string,
-    Address: io.string,
-    Description: io.string,
-  }),
-);
+const EventLocationBus = StrapiDocumentBus("EventLocation", {
+  Name: io.string,
+  Address: io.string,
+  Description: io.string,
+});
 
-const EventTypeBus = StrapiDocumentBus(
-  io.Complex("EventType", {
-    Name: io.string,
-    Summary: io.string,
-    Slug: io.string,
-    Description: StrapiRichTextBus,
-    Images: StrapiRelationBus(
-      io.Optional(io.Vector(StrapiDocumentBus(StrapiImageObjectBus))),
-    ),
-  }),
-);
+const EventTypeBus = StrapiDocumentBus("EventType", {
+  Name: io.string,
+  Summary: io.string,
+  Slug: io.string,
+  Description: StrapiRichTextBus,
+  Images: io.Optional(io.Vector(StrapiImageObjectBus)),
+});
 
-const EventBus = StrapiDocumentBus(
-  io.Complex("Event", {
-    Start: io.date,
-    LengthInHours: io.number,
-    Host: io.Optional(StrapiRelationBus(PersonBus)),
-    EventType: io.Optional(StrapiRelationBus(EventTypeBus)),
-    EventLocation: io.Optional(StrapiRelationBus(EventLocationBus)),
-    ExtraDescription: io.Optional(StrapiRichTextBus),
-  }),
-);
+const EventBus = StrapiDocumentBus("Event", {
+  Start: io.date,
+  LengthInHours: io.number,
+  Host: io.Optional(PersonBus),
+  EventType: io.Optional(EventTypeBus),
+  EventLocation: io.Optional(EventLocationBus),
+  ExtraDescription: io.Optional(StrapiRichTextBus),
+});
 
-const ArticleBus = StrapiDocumentBus(
-  io.Complex("Article", {
-    Title: io.string,
-    Slug: io.string,
-    Date: io.date,
-    Authors: io.Optional(StrapiRelationBus(io.Vector(PersonBus))),
-    Summary: io.Optional(io.string),
-    Content: io.Optional(io.Vector(ComponentArticleBasicTextBus)),
-  }),
-);
+const ArticleBus = StrapiDocumentBus("Article", {
+  Title: io.string,
+  Slug: io.string,
+  Date: io.date,
+  Authors: io.Optional(io.Vector(PersonBus)),
+  Summary: io.Optional(io.string),
+  Content: io.Optional(io.Vector(ComponentArticleBasicTextBus)),
+});
 
-const HomeBus = StrapiDocumentBus(
-  io.Complex("Home", {
-    Header: io.string,
-    locale: LocaleBus,
-  }),
-);
+const HomeBus = StrapiDocumentBus("Home", {
+  Header: io.string,
+  locale: LocaleBus,
+});
 
 const LinkBus = StrapiComponentBus("Link", {
   Text: io.string,
   Target: io.string,
 });
 
-const GeneralInformationBus = StrapiDocumentBus(
-  io.Complex("GeneralInformation", {
-    Sections: io.Vector(
-      StrapiComponentBus("Section", {
-        Description: io.Optional(io.string),
-        Title: io.Optional(io.string),
-        Links: io.Vector(LinkBus),
-      }),
-    ),
-  }),
-);
+const GeneralInformationBus = StrapiDocumentBus("GeneralInformation", {
+  Sections: io.Vector(
+    StrapiComponentBus("Section", {
+      Description: io.Optional(io.string),
+      Title: io.Optional(io.string),
+      Links: io.Vector(LinkBus),
+    }),
+  ),
+});
 
-const LinkInBioBus = StrapiDocumentBus(
-  io.Complex("LinkInBio", {
-    Link: io.Vector(LinkBus),
-  }),
-);
+const LinkInBioBus = StrapiDocumentBus("LinkInBio", {
+  Link: io.Vector(LinkBus),
+});
 
-const PermalinkBus = StrapiDocumentBus(
-  io.Complex("Permalink", {
-    Target: io.string,
-    Path: io.string,
-  }),
-);
+const PermalinkBus = StrapiDocumentBus("Permalink", {
+  Target: io.string,
+  Path: io.string,
+});
 
 const EventsResponseBus = StrapiResponseBus(io.Vector(EventBus));
 const ArticlesResponseBus = StrapiResponseBus(io.Vector(ArticleBus));

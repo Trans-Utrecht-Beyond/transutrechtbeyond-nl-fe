@@ -18,26 +18,24 @@ export default function ArticlePage() {
   return (
     <>
       <Helmet>
-        <title>{article.attributes.Title} - Trans Utrecht & Beyond</title>
-        <meta name="og:title" content={article.attributes.Title} />
-        {article.attributes.Summary.map((x) => (
+        <title>{article.Title} - Trans Utrecht & Beyond</title>
+        <meta name="og:title" content={article.Title} />
+        {article.Summary.map((x) => (
           <>
             <meta name="description" content={x} />
             <meta name="og:description" content={x} />
           </>
         )).getOrNull()}
       </Helmet>
-      <h1>{article.attributes.Title}</h1>
+      <h1>{article.Title}</h1>
       <c.ContentWrapper>
         <article>
-          <DynamicContent
-            content={article.attributes.Content.getOrCall(throwUnknown)}
-          />
+          <DynamicContent content={article.Content.getOrCall(throwUnknown)} />
         </article>
         <aside>
-          {article.attributes.Authors.getOrNull()?.data.map((author) => (
+          {article.Authors.getOrNull()?.map((author) => (
             <Person
-              key={author.id}
+              key={author.documentId}
               person={author}
               caption={t("articles.aboutTheAuthor")}
             />
