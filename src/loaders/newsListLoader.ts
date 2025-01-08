@@ -25,6 +25,7 @@ export default async function newsListLoader({ request }: LoaderFunctionArgs) {
     },
     pagination: {
       page,
+      pageSize: 5,
     },
   });
 
