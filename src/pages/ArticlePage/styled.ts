@@ -19,3 +19,7 @@ export const ContentWrapper = styled.div`
     }
   }
 `;
+
+export const PageTitle = styled.h1`
+  text-align: center;
+`;

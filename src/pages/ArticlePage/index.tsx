@@ -27,7 +27,7 @@ export default function ArticlePage() {
           </>
         )).getOrNull()}
       </Helmet>
-      <h1>{article.Title}</h1>
+      <c.PageTitle>{article.Title}</c.PageTitle>
       <c.ContentWrapper>
         <article>
           <DynamicContent content={article.Content.getOrCall(throwUnknown)} />
