@@ -15,13 +15,38 @@ const MENU_ITEMS: MenuItem[] = [
     t: "home",
     content: "/",
   },
-  // {
-  //   t: "news",
-  //   content: "/nieuws",
-  // },
+  {
+    t: "news",
+    content: "/nieuws",
+  },
   {
     t: "aboutUs",
-    content: "/over-ons",
+    content: [
+      {
+        t: "whoAreWe",
+        content: "/over-ons",
+      },
+      {
+        t: "confidant",
+        content: "/vertrouwenspersoon",
+      },
+      {
+        t: "donate",
+        content: "/doneren",
+      },
+      {
+        t: "membership",
+        content: "/lid-of-vrijwilliger-worden",
+      },
+      {
+        t: "CoC",
+        content: "/gedragscode",
+      },
+      {
+        t: "CoE",
+        content: "/ethische-code",
+      },
+    ],
   },
   {
     t: "events",
@@ -37,7 +62,7 @@ function MenuItemComponent({ item }: { item: MenuItem }) {
 
   const label = (
     <c.NavLabel>
-      {t("menu." + item.t)}
+      <span>{t("menu." + item.t)}</span>
       {typeof item.content !== "string" && <span>{isOpen ? "⌃" : "⌄"}</span>}
     </c.NavLabel>
   );

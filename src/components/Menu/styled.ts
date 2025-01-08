@@ -39,6 +39,7 @@ export const MobileMenu = styled.div`
 export const NavLabel = styled.h3`
   display: flex;
   justify-content: space-between;
+  gap: 1rem;
 `;
 
 export const SubMenu = styled.div`
@@ -49,6 +50,7 @@ export const SubMenuWrapper = styled.div`
   margin-left: 1em;
   padding: 0 1em;
   height: max-content;
+  width: max-content;
 
   @media screen and (min-width: 978px) {
     background: white;
