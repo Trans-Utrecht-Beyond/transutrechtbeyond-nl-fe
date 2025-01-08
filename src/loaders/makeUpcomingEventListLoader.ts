@@ -50,7 +50,7 @@ export default function makeUpcomingEventListLoader(pageSize: number) {
       .meta.pagination.map(({ pageCount }) => pageCount)
       .getOrCall(throwUnknown);
 
-    if (page && page > pageCount) {
+    if (pageCount && page && page > pageCount) {
       throw NOT_FOUND;
     }
 
