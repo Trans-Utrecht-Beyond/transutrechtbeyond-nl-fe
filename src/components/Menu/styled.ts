@@ -8,7 +8,7 @@ const hidePrint = css`
 `;
 
 export const Menu = styled.div`
-  ${hidePrint}
+  ${hidePrint};
   display: flex;
 
   justify-content: space-around;
@@ -40,6 +40,7 @@ export const NavLabel = styled.h3`
   display: flex;
   justify-content: space-between;
   gap: 1rem;
+  text-align: left;
 `;
 
 export const SubMenu = styled.div`
@@ -50,7 +51,7 @@ export const SubMenuWrapper = styled.div`
   margin-left: 1em;
   padding: 0 1em;
   height: max-content;
-  width: max-content;
+  width: 300px;
 
   @media screen and (min-width: 978px) {
     background: white;

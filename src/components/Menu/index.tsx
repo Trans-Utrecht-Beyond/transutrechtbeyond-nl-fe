@@ -4,6 +4,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import { Fragment } from "react/jsx-runtime";
 import useCurrentLanguage from "../../hooks/useCurrentLanguage";
 import * as c from "./styled";
+import { MOBILE_BREAKPOINT } from "../../constants.ts";
 
 type MenuItem = {
   t: string;
@@ -68,10 +69,12 @@ function MenuItemComponent({ item }: { item: MenuItem }) {
   );
 
   const handlePointerEnter = useCallback(() => {
+    if (window.document.body.scrollWidth <= MOBILE_BREAKPOINT) return;
     setIsOpen(true);
   }, []);
 
   const handlePointerLeave = useCallback(() => {
+    if (window.document.body.scrollWidth <= MOBILE_BREAKPOINT) return;
     setIsOpen(false);
   }, []);
 
