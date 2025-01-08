@@ -3,6 +3,7 @@ import { Fragment, ReactNode } from "react";
 import { throwUnknown } from "../../errors";
 import { ComponentArticleBasicText } from "../../io";
 import RichText from "../RichText";
+import * as c from "./styled";
 
 type Item = ComponentArticleBasicText;
 
@@ -21,7 +22,11 @@ const getNode = (item: Item): ReactNode => {
 };
 
 export default function DynamicContent({ content }: Props) {
-  return content.map((item) => (
-    <Fragment key={item.id}>{getNode(item)}</Fragment>
-  ));
+  return (
+    <c.Container>
+      {content.map((item) => (
+        <Fragment key={item.id}>{getNode(item)}</Fragment>
+      ))}
+    </c.Container>
+  );
 }
