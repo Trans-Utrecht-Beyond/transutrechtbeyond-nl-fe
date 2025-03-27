@@ -5,7 +5,7 @@ import StrapiImage from "../../components/StrapiImage";
 import { fixAssetURL } from "../../utils";
 
 import { Helmet } from "react-helmet-async";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { useLoaderData } from "react-router-typesafe";
 import { throwUnknown } from "../../errors";
 import useCurrentLanguage from "../../hooks/useCurrentLanguage";
@@ -18,7 +18,7 @@ export default function EventDetailPage() {
   const currentLanguage = useCurrentLanguage();
   const loaderData = useLoaderData<typeof eventDetailLoader>();
   const eventType = loaderData.EventType.getOrCall(throwUnknown);
-  const host = loaderData.Host.getOrCall(throwUnknown);
+  const hosts = loaderData.Hosts.getOrCall(throwUnknown);
   const eventLocation = loaderData.EventLocation.getOrCall(throwUnknown);
 
   return (
@@ -52,6 +52,11 @@ export default function EventDetailPage() {
       <GridC.Line />
       <GridC.Section>
         <div className="full">
+          <h4>
+            <Trans
+              i18nKey={loaderData.Sober ? "events.sober" : "events.nonSober"}
+            />
+          </h4>
           <RichText content={eventType.Description} />
           {loaderData.ExtraDescription.map((x) => (
             <RichText content={x} />
@@ -68,7 +73,13 @@ export default function EventDetailPage() {
           <p>{eventLocation.Description}</p>
         </div>
         <div className="double">
-          <Person person={host} caption={t("events.meetYourHost")} />
+          {hosts.zipWithIndex().map(([host, index]) => (
+            <Person
+              key={host.documentId}
+              person={host}
+              caption={index === 0 ? t("events.meetYourHost") : ""}
+            />
+          ))}
         </div>
       </GridC.Section>
     </>

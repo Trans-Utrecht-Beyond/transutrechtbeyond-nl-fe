@@ -151,7 +151,6 @@ const ComponentArticleBasicTextBus = DynamicItem("article.basic-text", {
 const PersonBus = StrapiDocumentBus("Person", {
   Name: io.string,
   Role: io.string,
-  Pronouns: io.string,
   Picture: io.Optional(StrapiImageObjectBus),
   Order: io.Optional(io.validNumber),
   Description: StrapiRichTextBus,
@@ -174,7 +173,8 @@ const EventTypeBus = StrapiDocumentBus("EventType", {
 const EventBus = StrapiDocumentBus("Event", {
   Start: io.date,
   LengthInHours: io.number,
-  Host: io.Optional(PersonBus),
+  Sober: io.boolean,
+  Hosts: io.Optional(io.Vector(PersonBus)),
   EventType: io.Optional(EventTypeBus),
   EventLocation: io.Optional(EventLocationBus),
   ExtraDescription: io.Optional(StrapiRichTextBus),

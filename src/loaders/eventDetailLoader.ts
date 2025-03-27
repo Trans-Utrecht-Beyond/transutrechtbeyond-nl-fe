@@ -16,8 +16,8 @@ export default (async function eventDetailLoader(args) {
       "EventType",
       "EventLocation",
       "EventType.Images",
-      "Host",
-      "Host.Picture",
+      "Hosts",
+      "Hosts.Picture",
     ],
     filters: {
       Start: formatISO(params.date!),

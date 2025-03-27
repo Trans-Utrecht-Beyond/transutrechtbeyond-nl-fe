@@ -57,6 +57,8 @@ i18n
             moreDetails: "More details",
             aboutTheLocation: "About the location:",
             meetYourHost: "Meet your host",
+            sober: "This event is sober",
+            nonSober: "This event is non-sober",
           },
           articles: {
             news: "News from TUB",
@@ -94,6 +96,8 @@ i18n
             moreDetails: "Meer details",
             aboutTheLocation: "Over de locatie:",
             meetYourHost: "Ontmoet je host",
+            sober: "Dit evenement is sober",
+            nonSober: "Dit evenement is niet sober",
           },
           articles: {
             news: "Nieuws uit TUB",
