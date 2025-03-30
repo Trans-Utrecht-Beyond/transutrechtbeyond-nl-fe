@@ -3,33 +3,31 @@ import { formatISO } from "date-fns";
 import QueryString from "qs";
 import { LoaderFunctionArgs } from "react-router-dom";
 import { DEFAULT_LANGUAGE } from "../constants";
-import { NOT_FOUND, throwUnknown, UNKNOWN } from "../errors";
+import { UNKNOWN } from "../errors";
 import { fetchEvents } from "../io";
 import getSearchParamFn from "./utils/getSearchParamFn.ts";
 
-export default function makeUpcomingEventListLoader(pageSize: number) {
-  return async function upcomingEventListLoader({
-    request,
-  }: LoaderFunctionArgs) {
+export default function makeSoberCountLoader(from: Date, to: Date) {
+  return async function soberCountLoader({ request }: LoaderFunctionArgs) {
     const getSearchParam = getSearchParamFn.apply1(request);
 
     const lang = getSearchParam("lang").getOrElse(DEFAULT_LANGUAGE);
-    const page = getSearchParam("page").map(Number).getOrElse(1);
 
     const query = QueryString.stringify({
       locale: lang,
-      populate: ["EventType", "EventLocation", "EventType.Images"],
       filters: {
         Start: {
-          $gt: formatISO(new Date(Date.now()), {
+          $gt: formatISO(from, {
+            representation: "date",
+          }),
+          $lt: formatISO(to, {
             representation: "date",
           }),
         },
       },
       sort: ["Start", "LengthInHours"],
       pagination: {
-        page,
-        pageSize,
+        pageSize: 9999,
       },
     });
 
@@ -43,15 +41,12 @@ export default function makeUpcomingEventListLoader(pageSize: number) {
       throw UNKNOWN;
     }
 
-    const pageCount = data
+    const eventCount = data.get().data.length();
+    const soberSum = data
       .get()
-      .meta.pagination.map(({ pageCount }) => pageCount)
-      .getOrCall(throwUnknown);
+      .data.filter((x) => x.Sober.contains(true))
+      .length();
 
-    if (pageCount && page && page > pageCount) {
-      throw NOT_FOUND;
-    }
-
-    return data.get();
+    return Math.round((soberSum / eventCount) * 100);
   };
 }

@@ -6,10 +6,27 @@ import {
 } from "../../io";
 import StrapiImage from "../StrapiImage";
 import * as c from "./styled";
+import { createContext, useContext } from "react";
 
 type Props = {
   content: StrapiRichText;
+  variables?: Record<string, string>;
 };
+
+const variableRegex = /\$\$([a-zA-Z]+)\b/g;
+
+function replaceVariables(
+  template: string,
+  values: { [key: string]: string },
+): string {
+  return template.replace(variableRegex, (match, key) => {
+    return Object.prototype.hasOwnProperty.call(values, key)
+      ? values[key]
+      : match;
+  });
+}
+
+const RTVariablesCTX = createContext<Record<string, string>>({});
 
 const codeStyles = {
   background: "lightgrey",
@@ -19,6 +36,9 @@ const codeStyles = {
 };
 
 function Text({ content }: { content: StrapiRTText }) {
+  const variables = useContext<Record<string, string>>(RTVariablesCTX);
+  const variableReplacedText = replaceVariables(content.text, variables);
+
   return (
     <span
       style={{
@@ -47,7 +67,7 @@ function Text({ content }: { content: StrapiRTText }) {
         ].join(" "),
       }}
     >
-      {content.text}
+      {variableReplacedText}
     </span>
   );
 }
@@ -77,77 +97,81 @@ function Textish({ content }: { content: StrapiRTTextish }) {
   }
 }
 
-export default function RichText({ content }: Props) {
-  return content.zipWithIndex().map(([section, n]) => {
-    const key = "section-" + n;
-    switch (section.type) {
-      case "code":
-        return (
-          <pre key={key} style={codeStyles}>
-            {section.children.zipWithIndex().map(([x, n]) => (
-              <Text content={x} key={n} />
-            ))}
-          </pre>
-        );
+export default function RichText({ content, variables }: Props) {
+  return (
+    <RTVariablesCTX.Provider value={variables ?? {}}>
+      {content.zipWithIndex().map(([section, n]) => {
+        const key = "section-" + n;
+        switch (section.type) {
+          case "code":
+            return (
+              <pre key={key} style={codeStyles}>
+                {section.children.zipWithIndex().map(([x, n]) => (
+                  <Text content={x} key={n} />
+                ))}
+              </pre>
+            );
 
-      case "heading": {
-        const Comp = "h" + section.level;
+          case "heading": {
+            const Comp = "h" + section.level;
 
-        return (
-          // @ts-expect-error - Need dynamic tag here
-          <Comp key={key}>
-            {section.children.zipWithIndex().map(([x, n]) => (
-              <Textish content={x} key={n} />
-            ))}
-          </Comp>
-        );
-      }
-
-      case "paragraph":
-        return (
-          <p key={key}>
-            {section.children.zipWithIndex().map(([x, n]) => (
-              <Textish content={x} key={n} />
-            ))}
-          </p>
-        );
-
-      case "quote":
-        return (
-          <c.Blockquote key={key}>
-            {section.children.zipWithIndex().map(([x, n]) => (
-              <Textish content={x} key={n} />
-            ))}
-          </c.Blockquote>
-        );
-
-      case "image":
-        return (
-          <p key={key}>
-            <StrapiImage
-              image={{
-                ...section.image,
-                alternativeText: section.alternativeText,
-              }}
-            />
-          </p>
-        );
-
-      case "list": {
-        const Comp = section.format === "ordered" ? "ol" : "ul";
-
-        return (
-          <Comp key={key}>
-            {section.children.zipWithIndex().map(([li, n]) => (
-              <li key={n}>
-                {li.children.zipWithIndex().map(([x, n]) => (
+            return (
+              // @ts-expect-error - Need dynamic tag here
+              <Comp key={key}>
+                {section.children.zipWithIndex().map(([x, n]) => (
                   <Textish content={x} key={n} />
                 ))}
-              </li>
-            ))}
-          </Comp>
-        );
-      }
-    }
-  });
+              </Comp>
+            );
+          }
+
+          case "paragraph":
+            return (
+              <p key={key}>
+                {section.children.zipWithIndex().map(([x, n]) => (
+                  <Textish content={x} key={n} />
+                ))}
+              </p>
+            );
+
+          case "quote":
+            return (
+              <c.Blockquote key={key}>
+                {section.children.zipWithIndex().map(([x, n]) => (
+                  <Textish content={x} key={n} />
+                ))}
+              </c.Blockquote>
+            );
+
+          case "image":
+            return (
+              <p key={key}>
+                <StrapiImage
+                  image={{
+                    ...section.image,
+                    alternativeText: section.alternativeText,
+                  }}
+                />
+              </p>
+            );
+
+          case "list": {
+            const Comp = section.format === "ordered" ? "ol" : "ul";
+
+            return (
+              <Comp key={key}>
+                {section.children.zipWithIndex().map(([li, n]) => (
+                  <li key={n}>
+                    {li.children.zipWithIndex().map(([x, n]) => (
+                      <Textish content={x} key={n} />
+                    ))}
+                  </li>
+                ))}
+              </Comp>
+            );
+          }
+        }
+      })}
+    </RTVariablesCTX.Provider>
+  );
 }

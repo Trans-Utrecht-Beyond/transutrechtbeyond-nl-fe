@@ -173,7 +173,7 @@ const EventTypeBus = StrapiDocumentBus("EventType", {
 const EventBus = StrapiDocumentBus("Event", {
   Start: io.date,
   LengthInHours: io.number,
-  Sober: io.boolean,
+  Sober: io.Optional(io.boolean),
   Hosts: io.Optional(io.Vector(PersonBus)),
   EventType: io.Optional(EventTypeBus),
   EventLocation: io.Optional(EventLocationBus),
@@ -199,7 +199,8 @@ const LinkBus = StrapiComponentBus("Link", {
   Target: io.string,
 });
 
-const GeneralInformationBus = StrapiDocumentBus("GeneralInformation", {
+const GlobalInformationBus = StrapiDocumentBus("GlobalInformation", {
+  EventPageHeaderText: StrapiRichTextBus,
   Sections: io.Vector(
     StrapiComponentBus("Section", {
       Description: io.Optional(io.string),
@@ -222,7 +223,7 @@ const EventsResponseBus = StrapiResponseBus(io.Vector(EventBus));
 const ArticlesResponseBus = StrapiResponseBus(io.Vector(ArticleBus));
 const EventDetailsResponseBus = StrapiResponseBus(EventBus);
 const HomeResponseBus = StrapiResponseBus(HomeBus);
-const GlobalInformationResponseBus = StrapiResponseBus(GeneralInformationBus);
+const GlobalInformationResponseBus = StrapiResponseBus(GlobalInformationBus);
 const LinkInBioResponseBus = StrapiResponseBus(LinkInBioBus);
 const PermalinkResponseBus = StrapiResponseBus(io.Vector(PermalinkBus));
 
@@ -237,7 +238,7 @@ export type StrapiRichText = io.BusOutputType<typeof StrapiRichTextBus>;
 export type Event = io.BusOutputType<typeof EventBus>;
 export type Person = io.BusOutputType<typeof PersonBus>;
 export type Home = io.BusOutputType<typeof HomeBus>;
-export type GeneralInformation = io.BusOutputType<typeof GeneralInformationBus>;
+export type GeneralInformation = io.BusOutputType<typeof GlobalInformationBus>;
 export type StrapiPagination = io.BusOutputType<typeof StrapiPaginationBus>;
 export type EventsResponse = io.BusOutputType<typeof EventsResponseBus>;
 export type LinkInBioResponse = io.BusOutputType<typeof LinkInBioResponseBus>;

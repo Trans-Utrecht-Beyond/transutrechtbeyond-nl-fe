@@ -54,7 +54,11 @@ export default function EventDetailPage() {
         <div className="full">
           <h4>
             <Trans
-              i18nKey={loaderData.Sober ? "events.sober" : "events.nonSober"}
+              i18nKey={
+                loaderData.Sober.contains(true)
+                  ? "events.sober"
+                  : "events.nonSober"
+              }
             />
           </h4>
           <RichText content={eventType.Description} />

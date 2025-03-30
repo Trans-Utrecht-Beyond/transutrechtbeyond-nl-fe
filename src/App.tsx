@@ -13,7 +13,6 @@ import eventDetailLoader from "./loaders/eventDetailLoader";
 import globalInformationLoader from "./loaders/globalInformationLoader";
 import homeLoader from "./loaders/homeLoader";
 import linkInBioLoader from "./loaders/linkInBioLoader";
-import makeUpcomingEventListLoader from "./loaders/makeUpcomingEventListLoader";
 import newsListLoader from "./loaders/newsListLoader";
 import ArticlePage from "./pages/ArticlePage";
 import BasePage from "./pages/BasePage";
@@ -23,6 +22,7 @@ import EventsPage from "./pages/EventsPage";
 import HomePage from "./pages/HomePage";
 import LinkInBioPage from "./pages/LinkInBioPage";
 import NewsListPage from "./pages/NewsListPage";
+import eventListPageLoader from "./loaders/eventListPageLoader.ts";
 
 i18n
   .use(I18nextBrowserLanguageDetector)
@@ -98,6 +98,9 @@ i18n
             meetYourHost: "Ontmoet je host",
             sober: "Dit evenement is sober",
             nonSober: "Dit evenement is niet sober",
+            /* eslint-disable no-irregular-whitespace */
+            headerText: ``,
+            /* eslint-enable */
           },
           articles: {
             news: "Nieuws uit TUB",
@@ -119,6 +122,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <BasePage />,
     errorElement: <ErrorPage />,
+    id: "root",
     loader: globalInformationLoader,
     children: [
       {
@@ -145,7 +149,7 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <EventsPage />,
-            loader: makeUpcomingEventListLoader(5),
+            loader: eventListPageLoader,
           },
           {
             path: ":date/:slug",

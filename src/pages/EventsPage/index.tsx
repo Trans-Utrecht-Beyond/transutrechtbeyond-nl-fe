@@ -5,30 +5,34 @@ import Arrow from "../../components/Arrow";
 import { Option } from "prelude-ts";
 import { useMemo } from "react";
 import { Helmet } from "react-helmet-async";
-import { useLoaderData } from "react-router-typesafe";
+import { useLoaderData, useRouteLoaderData } from "react-router-typesafe";
 import PaginationButtons from "../../components/PaginationButtons";
 import StrapiImage from "../../components/StrapiImage";
 import { throwUnknown } from "../../errors";
 import useCurrentLanguage from "../../hooks/useCurrentLanguage";
-import makeUpcomingEventListLoader from "../../loaders/makeUpcomingEventListLoader";
 import { formatEventDate, formatEventSlug, getRandom } from "../../utils";
 import * as c from "./styled";
+import eventListPageLoader from "../../loaders/eventListPageLoader.ts";
+import globalInformationLoader from "../../loaders/globalInformationLoader.ts";
+import RichText from "../../components/RichText";
 
 export default function EventsPage() {
-  const loaderData =
-    useLoaderData<ReturnType<typeof makeUpcomingEventListLoader>>();
+  const globalLoaderData =
+    useRouteLoaderData<typeof globalInformationLoader>("root");
+
+  const loaderData = useLoaderData<typeof eventListPageLoader>();
   const currentLanguage = useCurrentLanguage();
 
   const { t } = useTranslation();
 
   const pagination = useMemo(
     () =>
-      loaderData.meta.pagination
+      loaderData.upcomingEvents.meta.pagination
         .map(({ page, pageCount }) => (
           <PaginationButtons page={page} pageCount={pageCount} />
         ))
         .getOrCall(throwUnknown),
-    [loaderData.meta.pagination],
+    [loaderData.upcomingEvents.meta.pagination],
   );
 
   return (
@@ -38,8 +42,12 @@ export default function EventsPage() {
         <meta name="og:title" content={t("events.upcomingEvents")} />
       </Helmet>
       <h1>{t("events.upcomingEvents")}</h1>
+      <RichText
+        content={globalLoaderData.data.EventPageHeaderText}
+        variables={{ soberPercentage: loaderData.soberCount.toString() }}
+      />
       {pagination}
-      {loaderData.data.map((x) => {
+      {loaderData.upcomingEvents.data.map((x) => {
         const eventType = x.EventType.getOrCall(throwUnknown);
         const eventLocation = x.EventLocation.getOrCall(throwUnknown);
 
