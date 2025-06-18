@@ -13,8 +13,12 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@jsonforms/core": "^3.6.0",
+    "@jsonforms/material-renderers": "^3.6.0",
+    "@jsonforms/react": "^3.6.0",
     "@prelude-io/core": "^1.6.4",
     "@prelude-io/fetch": "^1.6.4",
+    "@tanstack/react-table": "^8.21.3",
     "d3": "^7.9.0",
     "date-fns": "^3.6.0",
     "i18next": "^23.10.1",

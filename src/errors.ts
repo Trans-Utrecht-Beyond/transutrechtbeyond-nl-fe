@@ -8,3 +8,10 @@ export const throwUnknown = () => {
 export const throwNotFound = () => {
   throw NOT_FOUND;
 };
+
+export const throwUnknownWith = (msg: string) => {
+  return () => {
+    console.error(msg);
+    throw UNKNOWN;
+  };
+};

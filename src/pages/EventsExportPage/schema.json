@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "properties": {
+    "from": {
+      "type": "string",
+      "format": "date"
+    },
+    "until": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "from",
+    "until"
+  ]
+}

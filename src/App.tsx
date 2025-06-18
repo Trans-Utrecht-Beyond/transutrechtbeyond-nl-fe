@@ -23,6 +23,8 @@ import HomePage from "./pages/HomePage";
 import LinkInBioPage from "./pages/LinkInBioPage";
 import NewsListPage from "./pages/NewsListPage";
 import eventListPageLoader from "./loaders/eventListPageLoader.ts";
+import EventsExportPage from "./pages/EventsExportPage";
+import eventsExportLoader from "./loaders/eventsExportLoader.ts";
 
 i18n
   .use(I18nextBrowserLanguageDetector)
@@ -155,6 +157,17 @@ const router = createBrowserRouter([
             path: ":date/:slug",
             element: <EventDetailPage />,
             loader: eventDetailLoader,
+          },
+        ],
+      },
+      {
+        path: "data",
+        element: <Outlet />,
+        children: [
+          {
+            path: "events",
+            element: <EventsExportPage />,
+            loader: eventsExportLoader,
           },
         ],
       },
