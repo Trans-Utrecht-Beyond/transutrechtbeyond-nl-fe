@@ -65,7 +65,7 @@ export default function EventsExportPage() {
     const from = searchParams.get("from");
     const until = searchParams.get("until");
 
-    if (from !== data.from && until !== data.until) {
+    if (from !== data.from || until !== data.until) {
       setSearchParams((params) => {
         params.set("from", data.from);
         params.set("until", data.until);
