@@ -2,9 +2,9 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, useLocation } from "react-router-dom";
 import { Fragment } from "react/jsx-runtime";
+import { MOBILE_BREAKPOINT } from "../../constants.ts";
 import useCurrentLanguage from "../../hooks/useCurrentLanguage";
 import * as c from "./styled";
-import { MOBILE_BREAKPOINT } from "../../constants.ts";
 
 type MenuItem = {
   t: string;
@@ -28,24 +28,41 @@ const MENU_ITEMS: MenuItem[] = [
         content: "/over-ons",
       },
       {
-        t: "confidant",
-        content: "/vertrouwenspersoon",
-      },
-      {
         t: "donate",
         content: "/doneren",
       },
       {
-        t: "membership",
-        content: "/lid-of-vrijwilliger-worden",
+        t: "CoE",
+        content: "/ethische-code",
+      },
+      {
+        t: "democracy",
+        content: "/democracy",
+      },
+    ],
+  },
+  {
+    t: "forParticipants",
+    content: [
+      {
+        t: "legalSupport",
+        content: "/juridische-ondersteuning",
+      },
+      {
+        t: "jobs",
+        content: "/jobs",
       },
       {
         t: "CoC",
         content: "/gedragscode",
       },
       {
-        t: "CoE",
-        content: "/ethische-code",
+        t: "confidant",
+        content: "/vertrouwenspersoon",
+      },
+      {
+        t: "membership",
+        content: "/lid-of-vrijwilliger-worden",
       },
     ],
   },

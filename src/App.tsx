@@ -10,6 +10,8 @@ import { initReactI18next } from "react-i18next";
 import { LayoutSettingsContext } from "./contexts/layoutSettingsContext";
 import articleLoader from "./loaders/articleLoader";
 import eventDetailLoader from "./loaders/eventDetailLoader";
+import eventListPageLoader from "./loaders/eventListPageLoader.ts";
+import eventsExportLoader from "./loaders/eventsExportLoader.ts";
 import globalInformationLoader from "./loaders/globalInformationLoader";
 import homeLoader from "./loaders/homeLoader";
 import linkInBioLoader from "./loaders/linkInBioLoader";
@@ -18,13 +20,11 @@ import ArticlePage from "./pages/ArticlePage";
 import BasePage from "./pages/BasePage";
 import ErrorPage from "./pages/ErrorPage";
 import EventDetailPage from "./pages/EventDetailPage";
+import EventsExportPage from "./pages/EventsExportPage";
 import EventsPage from "./pages/EventsPage";
 import HomePage from "./pages/HomePage";
 import LinkInBioPage from "./pages/LinkInBioPage";
 import NewsListPage from "./pages/NewsListPage";
-import eventListPageLoader from "./loaders/eventListPageLoader.ts";
-import EventsExportPage from "./pages/EventsExportPage";
-import eventsExportLoader from "./loaders/eventsExportLoader.ts";
 
 i18n
   .use(I18nextBrowserLanguageDetector)
@@ -49,6 +49,9 @@ i18n
             CoC: "Code of Conduct",
             CoE: "Code of Ethics",
             confidant: "Confidant",
+            forParticipants: "For participants",
+            jobs: "Open positions",
+            legalSupport: "Legal support",
           },
           events: {
             noEventsFound: "No events have been found...",
@@ -88,6 +91,9 @@ i18n
             CoC: "Gedragscode",
             CoE: "Ethische code",
             confidant: "Vertrouwenspersoon",
+            forParticipants: "Voor deelnemers",
+            jobs: "Werken bij",
+            legalSupport: "Juridische ondersteuning",
           },
           events: {
             noEventsFound: "Er zijn geen evenementen gevonden...",
